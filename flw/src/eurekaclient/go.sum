@@ -1,0 +1,4 @@
+github.com/xuanbo/eureka-client v0.0.5 h1:xRsZebAvyByYs/pq7wgcdSoJnlYwSOcKSIKR9CFO73Q=
+github.com/xuanbo/eureka-client v0.0.5/go.mod h1:89cTIVFpxXhoaty6VqLp5mntZSIE+lVDogWHudAOe+I=
+github.com/xuanbo/requests v0.0.1 h1:XAHmPKJOt+1KFt00tvbBG6rZRnazdtKxeYspr3zloVg=
+github.com/xuanbo/requests v0.0.1/go.mod h1:MfvizmCT21wr9poHF7/7DCQeTVhkeOjIDqk1LsetWBs=

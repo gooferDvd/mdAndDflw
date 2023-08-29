@@ -1,0 +1,3 @@
+per inizializzare il pacchetto:
+1) go mod init main
+2) go mod tidy

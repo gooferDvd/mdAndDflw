@@ -1,0 +1,61 @@
+[
+  {
+    "Id": "0bb294be28422088aca5c9f3a2da001acb25a1c5c30233d0afd38651a118e135",
+    "Names": [
+      "/nginx1"
+    ],
+    "Image": "nginx",
+    "ImageID": "sha256:2b7d6430f78d432f89109b29d88d4c36c868cdbf15dc31d2132ceaa02b993763",
+    "Command": "/docker-entrypoint.sh nginx -g 'daemon off;'",
+    "Created": 1679950988,
+    "Ports": [
+      {
+        "PrivatePort": 80,
+        "Type": "tcp"
+      }
+    ],
+    "Labels": {
+      "maintainer": "NGINX Docker Maintainers <docker-maint@nginx.com>"
+    },
+    "State": "running",
+    "Status": "Up 10 minutes",
+    "HostConfig": {
+      "NetworkMode": "net1"
+    },
+    "NetworkSettings": {
+      "Networks": {
+        "net1": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "NetworkID": "98ab303d7d773249acc95fe116525117f93f0ab6184c63f30830313ff87980fd",
+          "EndpointID": "60700987e89c236120665424560ef3d4645034e8bf3fdff0770324d761d63ba5",
+          "Gateway": "172.20.0.1",
+          "IPAddress": "172.20.0.2",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "MacAddress": "02:42:ac:14:00:02",
+          "DriverOpts": null
+        },
+        "net2": {
+          "IPAMConfig": {},
+          "Links": null,
+          "Aliases": null,
+          "NetworkID": "1f5ef39013fda7c9112d409d054e7a7efc7fd238b31f89616ca70ff557ac5165",
+          "EndpointID": "124fe559f08df9902ceb468fbc7cadd6ede80ba707f8f76bdc76f4f692404e7f",
+          "Gateway": "172.30.0.1",
+          "IPAddress": "172.30.0.3",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "MacAddress": "02:42:ac:1e:00:03",
+          "DriverOpts": null
+        }
+      }
+    },
+    "Mounts": []
+  }
+]

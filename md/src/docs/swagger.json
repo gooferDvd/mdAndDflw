@@ -1,0 +1,408 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server Petstore server.",
+        "title": "Swagger Example API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "petstore.swagger.io",
+    "basePath": "/v2",
+    "paths": {
+        "/list": {
+            "get": {
+                "description": "list all containers with a permitted image in state running or exited..",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "list all containers with a permitted image.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "state of container",
+                        "name": "state",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/utils.Container"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    }
+                }
+            }
+        },
+        "/listbyimage": {
+            "get": {
+                "description": "lists all permitted container by name with state exit or run.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "lists all permitted with an image.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "image name",
+                        "name": "name",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "state of container",
+                        "name": "state",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/utils.Container"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    }
+                }
+            }
+        },
+        "/log": {
+            "get": {
+                "description": "get  logs from a permitted container with state exit or run.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get Logs from a container name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "container name",
+                        "name": "name",
+                        "in": "path"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "rows log number",
+                        "name": "rows",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "state of container",
+                        "name": "state",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/utils.loggerLine"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    }
+                }
+            }
+        },
+        "/removexitbyimage": {
+            "delete": {
+                "description": "remove exited container with a permitted image.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "remove exited container with an image.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "image name",
+                        "name": "name",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    }
+                }
+            }
+        },
+        "/restart": {
+            "post": {
+                "description": "restart a permitted container by name with state exit or run.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "restart a container by name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "container name",
+                        "name": "name",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "state of container",
+                        "name": "state",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    }
+                }
+            }
+        },
+        "/searchbyname": {
+            "get": {
+                "description": "search a permitted container by name with state exit or run.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "search a permitted container by image.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "container name",
+                        "name": "name",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "state of container",
+                        "name": "state",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Container"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "stop a permitted container by name.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "stop a permitted container by name.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name of container",
+                        "name": "name",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.responceHttp"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "utils.Container": {
+            "type": "object",
+            "properties": {
+                "Command": {
+                    "type": "string"
+                },
+                "Id": {
+                    "type": "string"
+                },
+                "Image": {
+                    "type": "string"
+                },
+                "Mounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/utils.Mount"
+                    }
+                },
+                "Names": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Ports": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/utils.Port"
+                    }
+                },
+                "State": {
+                    "type": "string"
+                },
+                "Status": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.Mount": {
+            "type": "object",
+            "properties": {
+                "Destination": {
+                    "type": "string"
+                },
+                "Mode": {
+                    "type": "string"
+                },
+                "RW": {
+                    "type": "boolean"
+                },
+                "Source": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.Port": {
+            "type": "object",
+            "properties": {
+                "PrivatePort": {
+                    "type": "integer"
+                },
+                "PublicPort": {
+                    "type": "integer"
+                },
+                "Type": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.loggerLine": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "line": {
+                    "type": "integer"
+                }
+            }
+        },
+        "utils.responceHttp": {
+            "type": "object",
+            "properties": {
+                "info": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

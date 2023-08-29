@@ -1,0 +1,1 @@
+ curl --unix-socket /var/run/docker.sock "http:/v1.41/containers/json?all=false&filters=%7B%22exited%22%3A%5B%220%22%5D%7D" | jq

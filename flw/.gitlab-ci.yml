@@ -1,0 +1,36 @@
+variables:
+  IMAGE_NAME: "flow"
+
+.only-version-change:
+  refs:
+    - main
+  changes:
+    - .VERSION
+
+stages:
+  - version
+  - build
+
+version:
+  stage: version
+  script:
+    - IMAGEVERSION=$(cat .VERSION)
+    - echo "IMAGEVERSION=$IMAGEVERSION" >> buildversion.env
+  artifacts:
+    reports:
+      dotenv: buildversion.env
+  only: !reference [.only-version-change]
+  
+build:
+  image: docker:latest
+  services:
+    - docker:dind
+  stage: build
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/$IMAGE_NAME -t $CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGEVERSION .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE/$IMAGE_NAME --all-tags
+  only: !reference [.only-version-change]
+  needs:
+    - job: version
+      artifacts: true

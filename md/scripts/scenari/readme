@@ -1,0 +1,28 @@
+ENDPOINT                                                         |METHOD|  PARAM     |  DESCRIPTION
+http  http://keycloak.test/api/dm/list?state=all lista container | GET  | all        | List all container.
+http://keycloak.test/api/dm/stopit?name=pippo                    | POST | name       | stop a container by name
+http://keycloak.test/api/dm/stopallcontainerbyimage?imgname=nginx| POST | imgname    | stop all permits container with an image
+http://keycloak.test/api/dm/log?name=pippo&rows=8&state=all      | GET  | name,rows,state | get log of a container in state,
+http://keycloak.test/api/dm/exited"                              | GET  |            | get all container in exit state
+http://keycloak.test/api/dm/searchbyname?name=pluto&state=all"   | GET  | name,state | search a container by name in all state 
+http://keycloak.test/api/dm/restart?name=pippo&state=all         | POST | name,state | restart a container by name in all state
+http://keycloak.test/api/dm/listbyimage?imgname=nginx&state=all  | GET  | name,state | list container with an image in all state 
+http://keycloak.test/api/dm/removexitbyimage?imgname=nginx       |DELETE| imgname    | remove all container in exit state with an image
+http://keycloak.test/api/dm/volumeprunes                         | POST |            | prune all not user volume
+http://keycloak.test/api/dm/volumecreate                         | POST |  json      | create a volume type volume
+{"Name":"davide3"}
+http://keycloak.test/api/dm/getvolumeinstate?used=true           | GET  | used       | return list of used Volume (for used volume used=true, not used(false) or all volumes (all)
+http://keycloak.test/api/dm/volumeslist                          | GET  |            | return all volumes (deprecated same all)
+http://keycloak.test/api/dm/printenv                             | GET  |            | get all env vars
+http://keycloak.test/api/dm/reloadenv                            | POST |  json      |RELOAD ENV WITH new vars                                                                         
+{"ImagePerm":"all" ,"NetworkPerm":"net1"}
+http://keycloak.test/api/dm/create                               |POST  | json       |create a container with o without volumes of types bind or volume with an image on a network.    
+'{"Name":"container1","Image":"nginx","Network":"net1","Volumes":[{"VolumeType":"Bind","MountPo":"/mnt","Volume":"/mntbind"},{"VolumeType":"Volume","MountPo":"/mntciro","Volume":"ciro"}]}'
+{"Name":"container2","Image":"nginx","Network":"net1","Volumes":[{"VolumeType":"Volume","MountPo":"/mntciro","Volume":"ciro
+http://keycloak.test/api/dm/getlistcontainerbind                 | GET  |             | get the list of container with bind volume
+http://keycloak.test/api/dm/getbinds                             | GET  |             | get all bind volume, for container 
+http://keycloak.test/api/dm/killit                               |DELETE|name,state   | kill  a container in exit state or running
+http://keycloak.test/api/dm/deletevolume?name=ciro		 |DELETE| name	      | delete a volume
+http://keycloak.test/api/dm/prune	                  	 |DELETE|     	      | prune container on permitted network , if permitted network is all is on all network.
+
+

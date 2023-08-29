@@ -1,0 +1,68 @@
+A e' eseguito
+
+/*list child alla fine della procedura contier 
+i successivi nodi da eseguire.
+tolgo dalla lista un nodo quando:
+  - un nodo ha un padre in esecuzione 
+  - un nodo ha un padre che non e' in esecuzione e non e' su un branch morto
+
+listChild = child(A)
+
+for child in listChild {
+    fathers = getFather(child)
+    deleteFromFathers(A)
+    for father in Fathers {
+        if father is not executed {
+            if father is in Execution now {
+                delete from listChild(child)
+            } else {
+                fatherOnDeadBranch = isFatherOnDeadBranch(father) 
+                if fatherOnDeaDBranch {
+                    trascuro il fatto che child ha un padre non eseguito
+                    perche e' su un branch morto . child verra eseguito in quanto successore di A
+                } else {
+                    delete fron listChild(child)
+                    lo cancello dalla lista dei figli da eseguire
+                     perche ha un padre father che deve essere eseguito
+                }
+            }
+        } else {
+            child ha un padre father che e' stato eseguito 
+        }
+    }
+}
+
+/* father non e' eseguito ne in esecuzione alla prima chiamata
+
+isFatherOnDeadBranch (father) boolean {
+
+    nextFather = getFatherOfFather(father)
+    if nextFather e' vuoto  {
+        ho raggiunto un nodo radice 
+        non posso essere su un dead branch
+        return false
+    }
+
+    for key in nextFather {
+        if (key e' nodo if ) e (e' stato eseguito)  {
+            dato che nodo if e' sempre eseguito e 
+            provengo da nodo non eseguito sono il nodo
+            father e' su un dead Branch.
+
+            mappaNodiDeadBranch[key] = true
+        } else if (key non e' stato eseuito) e (non e' in esecuzione ) {
+            mappaNodiDeadBranch[key] = isFatherOnDeadBranch(key)
+        } else {//de morgan
+            key e' un nodo che o e' in esecuzione o e' stato eseguito
+            father non e' su un branch morto avendo un padre  key in esecuzione .
+            return false
+        }
+        
+    }
+     if (mappaNodiDeadBranch ha tutti gli elementi a true sono su un dead branch ) {
+         return true 
+     } else {
+         return false
+     }
+
+}

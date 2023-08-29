@@ -1,0 +1,268 @@
+basePath: /v2
+definitions:
+  utils.Container:
+    properties:
+      Command:
+        type: string
+      Id:
+        type: string
+      Image:
+        type: string
+      Mounts:
+        items:
+          $ref: '#/definitions/utils.Mount'
+        type: array
+      Names:
+        items:
+          type: string
+        type: array
+      Ports:
+        items:
+          $ref: '#/definitions/utils.Port'
+        type: array
+      State:
+        type: string
+      Status:
+        type: string
+    type: object
+  utils.Mount:
+    properties:
+      Destination:
+        type: string
+      Mode:
+        type: string
+      RW:
+        type: boolean
+      Source:
+        type: string
+    type: object
+  utils.Port:
+    properties:
+      PrivatePort:
+        type: integer
+      PublicPort:
+        type: integer
+      Type:
+        type: string
+    type: object
+  utils.loggerLine:
+    properties:
+      content:
+        type: string
+      line:
+        type: integer
+    type: object
+  utils.responceHttp:
+    properties:
+      info:
+        type: string
+    type: object
+host: petstore.swagger.io
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server Petstore server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /list:
+    get:
+      description: list all containers with a permitted image in state running or
+        exited..
+      parameters:
+      - description: state of container
+        in: path
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/utils.Container'
+            type: array
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+      summary: list all containers with a permitted image.
+  /listbyimage:
+    get:
+      description: lists all permitted container by name with state exit or run.
+      parameters:
+      - description: image name
+        in: path
+        name: name
+        type: string
+      - description: state of container
+        in: path
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/utils.Container'
+            type: array
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+      summary: lists all permitted with an image.
+  /log:
+    get:
+      description: get  logs from a permitted container with state exit or run.
+      parameters:
+      - description: container name
+        in: path
+        name: name
+        type: string
+      - description: rows log number
+        in: path
+        name: rows
+        type: integer
+      - description: state of container
+        in: path
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/utils.loggerLine'
+            type: array
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+      summary: get Logs from a container name
+  /removexitbyimage:
+    delete:
+      description: remove exited container with a permitted image.
+      parameters:
+      - description: image name
+        in: path
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+      summary: remove exited container with an image.
+  /restart:
+    post:
+      description: restart a permitted container by name with state exit or run.
+      parameters:
+      - description: container name
+        in: path
+        name: name
+        type: string
+      - description: state of container
+        in: path
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+      summary: restart a container by name
+  /searchbyname:
+    get:
+      description: search a permitted container by name with state exit or run.
+      parameters:
+      - description: container name
+        in: path
+        name: name
+        type: string
+      - description: state of container
+        in: path
+        name: state
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.Container'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+      summary: search a permitted container by image.
+    post:
+      description: stop a permitted container by name.
+      parameters:
+      - description: name of container
+        in: path
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.responceHttp'
+      summary: stop a permitted container by name.
+swagger: "2.0"

@@ -1,0 +1,66 @@
+[
+    {
+        "Command": "bin/main",<
+        "Created": 1677082100,
+        "HostConfig": {
+            "NetworkMode": "docker-manager_default"
+        },
+        "Id": "28108b9882dbbd6df42e2eb1f81056aee8b19e2e857f96b010e830d37186e035",
+        "Image": "docker-manager",<
+        "ImageID": "sha256:d5f091ad2da5f674d5294f2cc49d7ff964a2785cbe875e5941fb916533b23099",
+        "Labels": {
+            "com.docker.compose.config-hash": "e806fcfed25a44faf35e0fb09238a6f5585a7bf2a674a709d0bf6de1b6dd809e",
+            "com.docker.compose.container-number": "1",
+            "com.docker.compose.depends_on": "discovery-service:service_healthy",
+            "com.docker.compose.image": "sha256:d5f091ad2da5f674d5294f2cc49d7ff964a2785cbe875e5941fb916533b23099",
+            "com.docker.compose.oneoff": "False",
+            "com.docker.compose.project": "docker-manager",
+            "com.docker.compose.project.config_files": "/tmp/docker-manager/docker-compose.yml",
+            "com.docker.compose.project.working_dir": "/tmp/docker-manager",
+            "com.docker.compose.service": "docker-manager",
+            "com.docker.compose.version": "2.14.0"
+        },
+        "Mounts": [<
+            {
+                "Destination": "/var/run/docker.sock",
+                "Mode": "rw",
+                "Propagation": "rprivate",
+                "RW": true,
+                "Source": "/var/run/docker.sock",
+                "Type": "bind"
+            }
+        ],
+        "Names": [
+            "/docker-manager"<
+        ],
+        "NetworkSettings": {
+            "Networks": {
+                "docker-manager_default": {
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "EndpointID": "7588e0a06a08914a47f5628c453d4bcff7ac39efa2d2fd6cb999af77c143d283",
+                    "Gateway": "172.20.0.1",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "IPAMConfig": null,
+                    "IPAddress": "172.20.0.7",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "Links": null,
+                    "MacAddress": "02:42:ac:14:00:07",
+                    "NetworkID": "9937ed1bcc8534d2c3aba9f2d964cf2be07c1064e279a90c34f8c96aa2b33e3f"
+                }
+            }
+        },
+        "Ports": [
+            {
+                "IP": "0.0.0.0",<
+                "PrivatePort": 8080,<
+                "PublicPort": 8080,<
+                "Type": "tcp"<
+            }
+        ],
+        "State": "running",<
+        "Status": "Up 19 minutes"<
+    },  
+]

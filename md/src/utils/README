@@ -1,0 +1,144 @@
+This function receive a json in variable d . then this json is converted in struct following the containers type.
+
+func (p *Containers) GetAllPermittedByImgNet(d string, w io.Writer) error {
+
+	method := "GetAllPermittedContainersByImageAndNet():"
+	err := json.Unmarshal([]byte(d), p)
+	if err != nil {
+		logdm.WriteLogLine(method + err.Error())
+		logdm.WriteLogLine(method + "JSON : " + d)
+		logdm.WriteLogLine(method + "errore in codifica json!")
+		return errors.New("errore nella codifica json!")
+	}
+	// it's the same result if we invert the order of methods call!
+	containerSelectedByNet := p.selectPermittedNetwork()
+	containerSelected := containerSelectedByNet.selectPermittedByImage()
+	e := json.NewEncoder(w)
+	return e.Encode(&containerSelected)
+}
+ containers type is containers is an SLICE of Container.
+Container is an struct:
+
+
+type Container struct {
+	Command         string      `json:"Command"`
+	NetworkSettings interface{} `json:"NetworkSettings"`
+	Created         int32       `json:"Created"`
+	Id              string      `json:"Id"`
+	Image           string      `json:"Image"`
+	Mounts          []Mount     `json:"Mounts"`
+	Names           []string    `json:"Names"`
+	Ports           []Port      `json:"Ports"`
+	State           string      `json:"State"`
+	Status          string      `json:"Status"`
+}
+
+where NetworkSettings is type interface. this struct is not what we would like to have an array of :
+
+type NetworkInfo struct {
+	Gateway     string `json:"Gateway"`
+	IPAddress   string `json:"IPAddress"`
+	MacAddress  string `json:"MacAddress"`
+	Networkname string `json:"NetWorkName"`
+}
+
+so we introduce the function gettAllInfo. 
+
+First we use :
+
+func (p *Containers) selectPermittedByImage() Containers {
+	method := "selectPermittedByImage():"
+	resultSearch := Containers{}
+	var i int = 0
+	for _, k := range *p {
+		imageJson := k.Image
+		nameContainerJson := strings.ReplaceAll(k.Names[0], "/", "")
+		k.Names[0] = nameContainerJson
+		logdm.WriteLogLine(method + "Considering image ->" + imageJson)
+		if CanUseImage(imageJson) {
+			i++
+			k.NetworkSettings = k.getAllInfo()
+			resultSearch = append(resultSearch, k)
+		}
+	}
+	logdm.WriteLogLine(method + "added " + strconv.Itoa(i) + " permitted container from env.")
+	return resultSearch
+}
+
+this method  of containers cycles on containers and returns a new containers slice. this one is made of:
+- all permitted container by image.
+- the parts relative to the network is CREATED WITH getAllInfo.
+- no more interface{} INSIDE THE new containers.
+
+func (p Container) getAllInfo() []NetworkInfo {
+	if _, ok := p.NetworkSettings.(map[string]interface{}); !ok {
+		//networksetting e' interface{} se non e' istanza di map[string]interface{} allora non ho appena letto da json,
+		//e quindi sono chiamate successive di mettodi di containers
+		networks := p.NetworkSettings.([]NetworkInfo)
+		return networks
+	} else {
+		networks := (p.NetworkSettings.(map[string]interface{})["Networks"]).(map[string]interface{})
+		var allNet []NetworkInfo
+		netnames := getNetworkNames(networks)
+		for _, k := range netnames {
+			l := new(NetworkInfo)
+			nw := networks[k].(map[string]interface{})
+			ip := nw["IPAddress"].(string)
+			gw := nw["Gateway"].(string)
+			ma := nw["MacAddress"].(string)
+			l.IPAddress = ip
+			l.Gateway = gw
+			l.MacAddress = ma
+			l.Networkname = k
+			allNet = append(allNet, *l)
+		}
+		return allNet
+	}
+}
+
+this function act on container and return a new []networkinfo
+
+se la parte networkinsettings del container non e' una istanza di map[string]interface{} (ossia abbiamo gia trasformato il json) allora tornala cosi 
+come e'.
+
+altrimenti : 
+
+networks := (p.NetworkSettings.(map[string]interface{})["Networks"]).(map[string]interface{})
+
+- p.NetworkSettings.(map[string]interface{}) e' una asserzione , p.networksetting e' di tipo  map[string]interface{}
+- se si prendi la parte con chiave networks
+- e domandati se anche questa e' di tipo map[string]interface{} se si assegnala a networks.
+
+Quindi network e' una mappa che ha come chiavi i nomi delle reti.
+
+netnames := getNetworkNames(networks)
+for _, k := range netnames {
+	l := new(NetworkInfo)
+	nw := networks[k].(map[string]interface{})
+	ip := nw["IPAddress"].(string)
+	gw := nw["Gateway"].(string)
+	ma := nw["MacAddress"].(string)
+	l.IPAddress = ip
+	l.Gateway = gw
+	l.MacAddress = ma
+	l.Networkname = k
+	allNet = append(allNet, *l)
+}
+
+a questo punto ciclo su  questi nomi e ad ogni ciclo genero un l di tipo network info.
+estraggo quindi ciascuno elemento network (un container puo avere piu network) con chiave k,e se e' di tipo map[string]interfaces{} lo assegno a nw
+A questo punto da nw che e' la singola rete estraggo ip,gw,ma e lo assegno a l nelle rispettive voci. aggiungo *l a allnet che e' una slice di network info.
+
+questo lo faccio per tutte le reti del container. Quello che torno e' allnet che poi verra assegnato alla parte rete del container.
+
+if CanUseImage(imageJson) {
+			i++
+			k.NetworkSettings = k.getAllInfo()
+			resultSearch = append(resultSearch, k)
+		}
+
+In pratica ho sostituito la parte networksetting del container con valore interface{} CON UNA EFFETTIVA, COSTRUITA A PARTIRE DA QUESTA.
+ 
+
+
+
